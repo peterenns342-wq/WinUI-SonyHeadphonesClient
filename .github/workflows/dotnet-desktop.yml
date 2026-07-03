@@ -13,20 +13,18 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
 
-    - name: Install Dependencies
-      run: |
-        cd SonyHeadphonesClient
-        dotnet add package H.NotifyIcon.WinUI
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.2.0
 
-    - name: Build Solution
+    - name: Restore NuGet Packages
+      run: nuget restore SonyHeadphonesClient/SonyHeadphonesClient.sln
+
+    - name: Build Solution with MSBuild
       run: |
-        cd SonyHeadphonesClient
-        dotnet build SonyHeadphonesClient.sln --configuration Release /p:Platform=x64
+        msbuild SonyHeadphonesClient/SonyHeadphonesClient.sln /p:Configuration=Release /p:Platform=x64
 
     - name: Upload Compiled Executable
       uses: actions/upload-artifact@v4
