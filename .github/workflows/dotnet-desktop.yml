@@ -19,10 +19,14 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Install Dependencies
-      run: dotnet add SonyHeadphonesClient package H.NotifyIcon.WinUI
+      run: |
+        cd SonyHeadphonesClient
+        dotnet add package H.NotifyIcon.WinUI
 
     - name: Build Solution
-      run: dotnet build SonyHeadphonesClient/SonyHeadphonesClient.sln --configuration Release /p:Platform=x64
+      run: |
+        cd SonyHeadphonesClient
+        dotnet build SonyHeadphonesClient.sln --configuration Release /p:Platform=x64
 
     - name: Upload Compiled Executable
       uses: actions/upload-artifact@v4
