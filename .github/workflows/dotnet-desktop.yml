@@ -16,15 +16,9 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.2.0
-
-    - name: Restore NuGet Packages
-      run: nuget restore SonyHeadphonesClient/SonyHeadphonesClient.sln
-
-    - name: Build Solution with MSBuild
+    - name: Restore and Build Solution
       run: |
-        msbuild SonyHeadphonesClient/SonyHeadphonesClient.sln /p:Configuration=Release /p:Platform=x64
+        msbuild SonyHeadphonesClient/SonyHeadphonesClient.sln /t:Restore;Build /p:Configuration=Release /p:Platform=x64
 
     - name: Upload Compiled Executable
       uses: actions/upload-artifact@v4
